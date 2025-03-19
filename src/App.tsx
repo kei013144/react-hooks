@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import './App.css';
 import ContextData from './main';
 
@@ -20,6 +20,22 @@ export default function App() {
   const inputRef = useRef(null);
   const [inputRefStr, setInputStr] = useState('');
   const [state, dispatch] = useReducer(reducer, 0);
+
+  // useMemo
+  const [count01, setCount01] = useState(0);
+  const [count02, setCount02] = useState(0);
+
+  const square = useMemo(() => {
+    let i = 0;
+
+    console.log('call square');
+
+    while (i < 10000) {
+      i++;
+    }
+
+    return count02 * count02;
+  }, [count02]);
 
   const onclickRef = () => {
     if (inputRef.current) {
@@ -62,6 +78,23 @@ export default function App() {
           dispatch({ type: 'decrement' });
         }}>
         -
+      </button>
+      <hr />
+      <h1>useMemo</h1>
+      <div>カウント1:{count01}</div>
+      <div>カウント2:{count02}</div>
+      <div>結果:{square}</div>
+      <button
+        onClick={() => {
+          setCount01(count01 + 1);
+        }}>
+        +
+      </button>
+      <button
+        onClick={() => {
+          setCount02(count02 + 1);
+        }}>
+        +
       </button>
     </>
   );
