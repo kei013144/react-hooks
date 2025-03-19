@@ -30,7 +30,7 @@ export default function App() {
 
     console.log('call square');
 
-    while (i < 10000) {
+    while (i < 100000000) {
       i++;
     }
 
