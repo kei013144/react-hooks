@@ -1,6 +1,7 @@
-import { useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import './App.css';
 import ContextData from './main';
+import SomeChild from './SomeChild';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,7 +25,6 @@ export default function App() {
   // useMemo
   const [count01, setCount01] = useState(0);
   const [count02, setCount02] = useState(0);
-
   const square = useMemo(() => {
     let i = 0;
 
@@ -36,6 +36,12 @@ export default function App() {
 
     return count02 * count02;
   }, [count02]);
+
+  // useCallback
+  const [counter, setCounter] = useState(0);
+  const showCount = useCallback(() => {
+    alert('call showCount');
+  }, [counter]);
 
   const onclickRef = () => {
     if (inputRef.current) {
@@ -53,10 +59,12 @@ export default function App() {
       <h1>useState,useEffect</h1>
       <button onClick={onClickHandle}>+</button>
       <p>{count}</p>
+
       <hr />
       <h1>useContext</h1>
       <p>{contextData.name}</p>
       <p>{contextData.age}</p>
+
       <hr />
       <h1>useRef</h1>
       <input
@@ -64,6 +72,7 @@ export default function App() {
         ref={inputRef}></input>
       <button onClick={onclickRef}>useRef</button>
       <p>入力値：{inputRefStr}</p>
+
       <hr />
       <h1>useReducer</h1>
       <p>カウント：{state}</p>
@@ -79,6 +88,7 @@ export default function App() {
         }}>
         -
       </button>
+
       <hr />
       <h1>useMemo</h1>
       <div>カウント1:{count01}</div>
@@ -96,6 +106,12 @@ export default function App() {
         }}>
         +
       </button>
+
+      <hr />
+      <h1>useCallback</h1>
+      <button onClick={() => setCounter(counter + 1)}>setCounter</button>
+      <p>couneter:{counter}</p>
+      <SomeChild showCount={showCount} />
     </>
   );
 }
